@@ -1,0 +1,65 @@
+{% extends 'portfolio/base.html' %}
+
+{% block title %}Experience{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-5">My Experience</h1>
+    <div class="timeline">
+        {% for experience in experiences %}
+        <div class="timeline-item mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2 text-center">
+                            {% if experience.company_logo %}
+                            <img src="{{ experience.company_logo.url }}" alt="{{ experience.company_name }}" class="img-fluid rounded-circle mb-3" style="max-width: 80px;">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-10">
+                            <h5 class="card-title">{{ experience.job_title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ experience.company_name }}</h6>
+                            <p class="card-text"><small class="text-muted">{{ experience.start_date }} - {{ experience.end_date|default:"Present" }}</small></p>
+                            <p class="card-text">{{ experience.responsibilities }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #007bff;
+}
+
+.timeline-item {
+    position: relative;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: 20px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #007bff;
+    border: 2px solid #fff;
+}
+</style>
+{% endblock %}

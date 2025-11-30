@@ -1,0 +1,101 @@
+{% extends 'portfolio/base.html' %}
+
+{% block title %}Home{{ hero.full_name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Hero Section -->
+    {% if hero %}
+    <section class="hero-section text-center mb-5">
+        <img src="{{ hero.profile_photo.url }}" alt="Profile Photo" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+        <h1>{{ hero.full_name }}</h1>
+        <h2>{{ hero.short_title }}</h2>
+        <p>{{ hero.short_intro }}</p>
+        <div class="social-links mb-3">
+            {% if hero.github_link %}<a href="{{ hero.github_link }}" class="btn btn-outline-primary me-2"><i class="fab fa-github"></i></a>{% endif %}
+            {% if hero.linkedin_link %}<a href="{{ hero.linkedin_link }}" class="btn btn-outline-primary me-2"><i class="fab fa-linkedin"></i></a>{% endif %}
+            {% if hero.facebook_link %}<a href="{{ hero.facebook_link }}" class="btn btn-outline-primary"><i class="fab fa-facebook"></i></a>{% endif %}
+        </div>
+        <a href="{{ hero.resume.url }}" class="btn btn-primary">Download Resume</a>
+    </section>
+    {% endif %}
+
+    <!-- Skills Section -->
+    <section class="skills-section mb-5">
+        <h2 class="text-center mb-4">Skills</h2>
+        <div class="row">
+            {% for skill in skills %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ skill.name }}</h5>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{ skill.level }}%" aria-valuenow="{{ skill.level }}" aria-valuemin="0" aria-valuemax="100">{{ skill.level }}%</div>
+                        </div>
+                        <p class="card-text">{{ skill.category }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects-section mb-5">
+        <h2 class="text-center mb-4">Recent Projects</h2>
+        <div class="row">
+            {% for project in projects %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="{{ project.thumbnail.url }}" class="card-img-top" alt="{{ project.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text">{{ project.description|truncatechars:100 }}</p>
+                        <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <a href="{% url 'projects' %}" class="btn btn-outline-primary">View All Projects</a>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience-section mb-5">
+        <h2 class="text-center mb-4">Experience</h2>
+        <div class="timeline">
+            {% for experience in experiences %}
+            <div class="timeline-item mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ experience.job_title }} at {{ experience.company_name }}</h5>
+                        <p class="card-text">{{ experience.start_date }} - {{ experience.end_date|default:"Present" }}</p>
+                        <p class="card-text">{{ experience.responsibilities }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="education-section mb-5">
+        <h2 class="text-center mb-4">Education</h2>
+        <div class="row">
+            {% for education in educations %}
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ education.degree }}</h5>
+                        <p class="card-text">{{ education.institution_name }} - {{ education.passing_year }}</p>
+                        <p class="card-text">{{ education.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
